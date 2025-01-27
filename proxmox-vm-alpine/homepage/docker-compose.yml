@@ -1,0 +1,14 @@
+services:
+  homepage:
+    image: gethomepage/homepage:v0.10.9
+    container_name: homepage
+    restart: unless-stopped
+    networks:
+      - root_proxmox-docker-vnet
+    volumes:
+      - /home/homepage/config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  root_proxmox-docker-vnet:
+    external: true

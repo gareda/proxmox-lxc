@@ -1,0 +1,18 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:2.26.1-alpine
+    container_name: portainer
+    restart: unless-stopped
+    networks:
+      - proxmox-docker-vnet
+    ports:
+      - 9000:9000
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /home/portainer/data:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  proxmox-docker-vnet:

@@ -1,0 +1,98 @@
+---
+- Administración:
+    - Proxmox:
+        icon: proxmox.svg
+        href: https://proxmox.dgarrido.net
+        description: Servidor de virtualización
+        widget:
+          type: proxmox
+          url: https://proxmox.dgarrido.net
+          username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
+
+    - Zoraxy:
+        icon: zoraxy.svg
+        href: https://proxy.dgarrido.net
+        description: Servidor Proxy
+
+    - Adguard Home:
+        icon: adguard-home.svg
+        href: https://dns.dgarrido.net
+        description: Servidor DNS
+        widget:
+          type: adguard
+          url: https://dns.dgarrido.net
+          username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
+
+    - Uptime Kuma:
+        icon: uptime-kuma.svg
+        href: https://monitor.dgarrido.net
+        description: Monitorización de servicios
+        widget:
+            type: uptimekuma
+            url: https://monitor.dgarrido.net
+            slug: statuspageslug
+
+    - Download Station:
+        icon: synology-download-station.webp
+        href: https://synology.dgarrido.net
+        description: Cliente Torrent
+        winget:
+          type: downloadstation
+          url: https://synology.dgarrido.net
+          username: "{{HOMEPAGE_VAR_SYNOLOGY_DOWNLOADSTATION_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_SYNOLOGY_DOWNLOADSTATION_PASSWORD}}"
+
+- Streaming:
+    - Jellyfin:
+        icon: jellyfin.svg
+        href: https://streaming.dgarrido.net
+        description: Servicio de streaming
+        widget:
+          type: jellyfin
+          url: https://streaming.dgarrido.net
+          fields: ["movies", "series", "episodes"]
+          key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+          enableBlocks: true #
+          enableUser: true
+          showEpisodeNumber: true # optional, defaults to false
+           #expandOneStreamToTwoRows: false # optional, defaults to true
+
+    - Jellyseerr:
+        icon: jellyseerr.svg
+        href: https://requests.dgarrido.net
+        description: Servicio de peticiones de contenido
+        widget:
+          type: jellyseerr
+          url: https://requests.dgarrido.net
+          key: "{{HOMEPAGE_VAR_JELLYSEERR_KEY}}"
+
+    - Prowlarr:
+        icon: prowlarr.svg
+        href: https://prowlarr.dgarrido.net
+        description: Servicio de indexación de contenido
+        widget:
+          type: prowlarr
+          url: https://prowlarr.dgarrido.net
+          key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
+
+    - Radarr:
+        icon: radarr.svg
+        href: https://radarr.dgarrido.net
+        description: Servicio de gestión de películas
+        widget:
+          type: radarr
+          url: https://radarr.dgarrido.net
+          key: "{{HOMEPAGE_VAR_RADARR_KEY}}"
+        #   enableQueue: true # optional, defaults to false
+
+    - Sonarr:
+        icon: sonarr.svg
+        href: https://sonarr.dgarrido.net
+        description: Servicio de gestión de series
+        widget:
+          type: sonarr
+          url: https://sonarr.dgarrido.net
+          key: "{{HOMEPAGE_VAR_SONARR_KEY}}"
+        #   enableQueue: true # optional, defaults to false

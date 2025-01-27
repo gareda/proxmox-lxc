@@ -1,0 +1,19 @@
+services:
+  zoraxy:
+    image: zoraxydocker/zoraxy:v3.1.6
+    container_name: zoraxy
+    restart: unless-stopped
+    networks:
+      - root_proxmox-docker-vnet
+    ports:
+      - 80:80
+      - 443:443
+      - 8000:8000/tcp
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /home/zoraxy/config/:/opt/zoraxy/config/
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  root_proxmox-docker-vnet:
+    external: true

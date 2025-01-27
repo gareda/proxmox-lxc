@@ -1,0 +1,14 @@
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:2025.1.0
+    container_name: cloudflared
+    restart: unless-stopped
+    networks:
+      - root_proxmox-docker-vnet
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=
+
+networks:
+  root_proxmox-docker-vnet:
+    external: true
