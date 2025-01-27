@@ -1,0 +1,15 @@
+services:
+  whatsupdocker:
+    image: getwud/wud:8.0.1
+    container_name: whatsupdocker
+    restart: unless-stopped
+    networks:
+      - root_proxmox-docker-vnet
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /home/whatsupdocker/store:/store
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  root_proxmox-docker-vnet:
+    external: true

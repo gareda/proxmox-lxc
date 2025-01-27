@@ -2,6 +2,8 @@ services:
   homepage:
     image: gethomepage/homepage:v0.10.9
     container_name: homepage
+    labels:
+      - wud.tag.include=^v\d+\.\d+\.\d+$$
     restart: unless-stopped
     networks:
       - root_proxmox-docker-vnet

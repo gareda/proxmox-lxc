@@ -2,6 +2,8 @@ services:
   portainer:
     image: portainer/portainer-ce:2.26.1-alpine
     container_name: portainer
+    labels:
+      - wud.tag.include=^\d+\.\d+\.\d+-alpine$$
     restart: unless-stopped
     networks:
       - proxmox-docker-vnet
