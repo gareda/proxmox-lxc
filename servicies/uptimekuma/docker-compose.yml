@@ -1,0 +1,17 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1.23.16-alpine
+    container_name: uptimekuma
+    labels:
+      - wud.tag.include=^\d+\.\d+\.\d+-alpine$$
+    restart: unless-stopped
+    networks:
+      - root_proxmox-docker-vnet
+    dns: 
+      - 172.20.0.100 # Adguard Home
+    volumes:
+      - /home/uptimekuma/data:/app/data
+
+networks:
+  root_proxmox-docker-vnet:
+    external: true

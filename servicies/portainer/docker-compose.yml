@@ -8,7 +8,7 @@ services:
     networks:
       - proxmox-docker-vnet
     ports:
-      - 9000:9000
+      - 9443:9443
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -18,3 +18,6 @@ services:
 
 networks:
   proxmox-docker-vnet:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

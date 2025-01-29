@@ -6,7 +6,8 @@ services:
       - wud.tag.include=^v\d+\.\d+\.\d+$$
     restart: unless-stopped
     networks:
-      - root_proxmox-docker-vnet
+      root_proxmox-docker-vnet:
+        ipv4_address: 172.20.0.100
     ports:
       - 53:53/tcp
       - 53:53/udp

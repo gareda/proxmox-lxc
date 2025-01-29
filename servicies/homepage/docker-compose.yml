@@ -7,6 +7,8 @@ services:
     restart: unless-stopped
     networks:
       - root_proxmox-docker-vnet
+    dns:
+      - 172.20.0.100
     volumes:
       - /home/homepage/config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
