@@ -1,0 +1,19 @@
+services:
+  sonarr:
+    image: lscr.io/linuxserver/prowlarr:1.30.2
+    container_name: prowlarr
+    restart: unless-stopped
+    labels:
+      - wud.tag.include=^\d+\.\d+\.\d+$$
+    environment:
+      - TZ=Europe/Madrid
+    networks:
+      - root_proxmox-docker-vnet
+    dns:
+      - 172.20.0.100
+    volumes:
+      - /home/prowlarr/config:/config
+
+networks:
+  root_proxmox-docker-vnet:
+    external: true

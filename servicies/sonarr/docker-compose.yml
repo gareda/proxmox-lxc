@@ -1,0 +1,19 @@
+services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:4.0.12
+    container_name: sonarr
+    restart: unless-stopped
+    labels:
+      - wud.tag.include=^\d+\.\d+\.\d+$$
+    environment:
+      - TZ=Europe/Madrid
+    networks:
+      - root_proxmox-docker-vnet
+    dns:
+      - 172.20.0.100
+    volumes:
+      - /home/sonarr/config:/config
+
+networks:
+  root_proxmox-docker-vnet:
+    external: true

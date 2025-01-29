@@ -1,0 +1,94 @@
+services:
+  postgresql:
+    image: docker.io/library/postgres:16.6-alpine
+    container_name: authenlik-postgresql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_USER: ${PG_USER:-authentik}
+      POSTGRES_DB: ${PG_DB:-authentik}
+    networks:
+      - root_proxmox-docker-vnet
+    volumes:
+      - /home/authenlik/database:/var/lib/postgresql/data
+
+  redis:
+    image: docker.io/library/redis:7.2.7-alpine
+    container_name: authenlik-redis
+    restart: unless-stopped
+    command: --save 60 1 --loglevel warning
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    networks:
+      - root_proxmox-docker-vnet
+    volumes:
+      - /home/authenlik/redis:/data
+
+  server:
+    image: ghcr.io/goauthentik/server:2024.12.3
+    container_name: authenlik-server
+    restart: unless-stopped
+    command: server
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+    networks:
+      - root_proxmox-docker-vnet
+    dns:
+      - 172.20.0.100
+    # ports:
+    #   - 9000:9000
+    volumes:
+      - /home/authenlik/media:/media
+      - /home/authenlik/templates:/templates
+
+  worker:
+    image: ghcr.io/goauthentik/server:2024.12.3
+    container_name: authenlik-worker
+    restart: unless-stopped
+    command: worker
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    user: root
+    environment:
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+    networks:
+      - root_proxmox-docker-vnet
+    dns:
+      - 172.20.0.100
+    volumes:
+      # - /var/run/docker.sock:/var/run/docker.sock
+      - /home/authenlik/media:/media
+      - /home/authenlik/certs:/certs
+      - /home/authenlik/templates:/templates
+
+networks:
+  root_proxmox-docker-vnet:
+    external: true
