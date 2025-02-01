@@ -33,6 +33,16 @@
             type: uptimekuma
             url: https://monitor.dgarrido.net
             slug: statuspageslug
+    
+    - What's Up Docker:
+        icon: whats-up-docker.svg
+        href: https://whatsupdocker.dgarrido.net
+        descripción: Versión de los contenedores
+        widget:
+          type: whatsupdocker
+          url: https://whatsupdocker.dgarrido.net
+          # username: "{{HOMEPAGE_VAR_WHATSUPDOCKER_USERNAME}}"
+          # password: "{{HOMEPAGE_VAR_WHATSUPDOCKER_PASSWORD}}"
 
     - Download Station:
         icon: synology-download-station.webp
@@ -45,33 +55,33 @@
           password: "{{HOMEPAGE_VAR_SYNOLOGY_DOWNLOADSTATION_PASSWORD}}"
 
 - Streaming:
+  - Web:
     - Jellyfin:
         icon: jellyfin.svg
         href: https://streaming.dgarrido.net
-        description: Servicio de streaming
+        description: Plataforma de visionado
         widget:
           type: jellyfin
           url: https://streaming.dgarrido.net
           fields: ["movies", "series", "episodes"]
           key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
-          enableBlocks: true #
+          enableBlocks: true
           enableUser: true
-          showEpisodeNumber: true # optional, defaults to false
-           #expandOneStreamToTwoRows: false # optional, defaults to true
+          showEpisodeNumber: true
 
     - Jellyseerr:
         icon: jellyseerr.svg
         href: https://requests.dgarrido.net
-        description: Servicio de peticiones de contenido
+        description: Plataforma de solicitud
         widget:
           type: jellyseerr
           url: https://requests.dgarrido.net
           key: "{{HOMEPAGE_VAR_JELLYSEERR_KEY}}"
-
+  - Engine:
     - Prowlarr:
         icon: prowlarr.svg
         href: https://prowlarr.dgarrido.net
-        description: Servicio de indexación de contenido
+        description: Indexador de contenido
         widget:
           type: prowlarr
           url: https://prowlarr.dgarrido.net
@@ -80,19 +90,33 @@
     - Radarr:
         icon: radarr.svg
         href: https://radarr.dgarrido.net
-        description: Servicio de gestión de películas
+        description: Gestión de películas
         widget:
           type: radarr
           url: https://radarr.dgarrido.net
           key: "{{HOMEPAGE_VAR_RADARR_KEY}}"
-        #   enableQueue: true # optional, defaults to false
 
     - Sonarr:
         icon: sonarr.svg
         href: https://sonarr.dgarrido.net
-        description: Servicio de gestión de series
+        description: Gestión de series
         widget:
           type: sonarr
           url: https://sonarr.dgarrido.net
           key: "{{HOMEPAGE_VAR_SONARR_KEY}}"
-        #   enableQueue: true # optional, defaults to false
+
+  - Calendar: 
+    - Calendar:
+        widget:
+          type: calendar
+          view: monthly
+          showTime: true
+          timezone: Europe/Madrid
+          integrations:
+            - type: sonarr
+              service_group: Engine
+              service_name: Sonarr
+                
+            - type: radarr
+              service_group: Engine
+              service_name: Radarr
