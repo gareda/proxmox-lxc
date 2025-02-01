@@ -1,10 +1,14 @@
 services:
   cloudflared:
-    image: cloudflare/cloudflared:2025.1.0
+    image: cloudflare/cloudflared:2025.1.1
     container_name: cloudflared
     restart: unless-stopped
+    labels:
+      - wud.tag.include=^\d+\.\d+\.\d+$$
     networks:
       - root_proxmox-docker-vnet
+    dns:
+      - 172.20.0.100
     command: tunnel run
     environment:
       - TUNNEL_TOKEN=
