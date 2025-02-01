@@ -1,0 +1,22 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.10.5
+    container_name: jellyfin
+    restart: unless-stopped
+    # networks:
+    #   - root_proxmox-docker-vnet
+    dns:
+    #   - 172.20.0.100
+      - 192.168.1.200
+    ports:
+      - 8096:8096
+    volumes:
+      - /volume1/docker/jellyfin/cache:/cache
+      - /volume1/docker/jellyfin/config:/config
+      - /volume1/data:/data
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+
+# networks:
+#   root_proxmox-docker-vnet:
+#     external: true
